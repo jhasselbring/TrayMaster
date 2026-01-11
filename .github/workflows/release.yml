@@ -1,0 +1,118 @@
+name: Build and Sign Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-sign:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build Release
+        run: dotnet publish -c Release
+
+      - name: Prepare artifacts
+        run: |
+          mkdir -p artifacts
+          cp bin/Release/net8.0-windows/win-x64/publish/Runner.exe artifacts/
+
+      # Sign with SignPath
+      - name: Sign with SignPath
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: 'runner'
+          signing-policy-slug: 'release-signing'
+          artifact-configuration-slug: 'runner'
+          input-artifact-path: artifacts/Runner.exe
+          output-artifact-path: artifacts/Runner-signed.exe
+          wait-for-completion: true
+
+      - name: Prepare distribution
+        run: |
+          # Create dist folder
+          mkdir dist
+
+          # Copy signed executable
+          cp artifacts/Runner-signed.exe dist/Runner.exe
+
+          # Copy config and assets
+          cp static/runner.json.template dist/runner.json
+          cp static/icon.ico dist/
+          cp README.md dist/
+          cp examples/HTTP-REFERENCE.md dist/
+          cp examples/*.js dist/
+          cp examples/*.py dist/
+          cp examples/*.cmd dist/
+          cp examples/README.md dist/EXAMPLES.md
+
+      - name: Create ZIP
+        run: |
+          cd dist
+          Compress-Archive -Path * -DestinationPath ../Runner-${{ github.ref_name }}-win64.zip
+          cd ..
+          cp dist/Runner.exe Runner-${{ github.ref_name }}-win64.exe
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Runner-${{ github.ref_name }}-win64.zip
+            Runner-${{ github.ref_name }}-win64.exe
+          body: |
+            # Runner - System Tray Process Manager
+
+            A lightweight Windows system tray application for managing long-running processes with JSON configuration and HTTP webhook support.
+
+            ## What's Included
+
+            This release includes:
+            - **Runner.exe** - Code-signed standalone executable (self-contained, no dependencies)
+            - **Complete distribution** - Includes config templates, examples, and documentation
+
+            ## Features
+
+            - 🎯 **System Tray Integration** - Manage processes from your Windows system tray
+            - 🔄 **Process Management** - Start, stop, and monitor long-running processes
+            - 🌐 **HTTP Webhooks** - Trigger menu items via HTTP requests for automation
+            - ⚙️ **JSON Configuration** - Simple, flexible configuration with all options documented
+            - 📝 **Log Viewer** - View process output in real-time
+            - 🎨 **Custom Icons** - Use .ico files or generate icons from text
+            - 🔧 **Working Directory** - Execute commands in specific directories
+            - 🚦 **Conditional Menus** - Show/enable menu items based on process state
+
+            ## Quick Start
+
+            1. Download `Runner-${{ github.ref_name }}-win64.zip` or just `Runner-${{ github.ref_name }}-win64.exe`
+            2. Extract the ZIP (if using complete distribution)
+            3. Edit `runner.json` to configure your processes
+            4. Run `Runner.exe`
+
+            ## Requirements
+
+            - Windows 10 or later
+            - No .NET runtime required (self-contained)
+            - **Code signed** - No SmartScreen warnings
+
+            ## Documentation
+
+            - See README.md for complete documentation
+            - See HTTP-REFERENCE.md for webhook integration guide
+            - See EXAMPLES.md for handler examples
+
+            ---
+
+            **Built with .NET 8** | **Open Source** | **Code Signed**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
