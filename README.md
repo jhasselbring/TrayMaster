@@ -807,7 +807,7 @@ All contributors must:
 ## Security
 
 To report security vulnerabilities:
-1. Open an issue: https://github.com/jhasselbring/runner/issues
+1. Open an issue: https://github.com/jhasselbring/TrayMaster/issues
 2. Include detailed reproduction steps
 3. Allow time for investigation and patching
 
