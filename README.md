@@ -1,4 +1,4 @@
-# Runner - System Tray Process Manager
+# TrayMaster - System Tray Process Manager
 
 A lightweight Windows system tray application for managing long-running processes with JSON configuration and HTTP webhook support.
 
@@ -18,17 +18,17 @@ A lightweight Windows system tray application for managing long-running processe
 
 ## Quick Start
 
-1. Download or build `Runner.exe`
-2. Copy `static/runner.json.template` to your deployment directory as `runner.json`
+1. Download or build `TrayMaster.exe`
+2. Copy `static/TrayMasterConfig.json.template` to your deployment directory as `TrayMasterConfig.json`
 3. Add `icon.ico` (optional, or use the sample from `static/icon.ico`)
-4. Configure your processes in `runner.json`
-5. Run `Runner.exe`
+4. Configure your processes in `TrayMasterConfig.json`
+5. Run `TrayMaster.exe`
 
 ## Configuration
 
 ### Basic Example
 
-Create a `runner.json` file:
+Create a `TrayMasterConfig.json` file:
 
 ```json
 {
@@ -65,7 +65,7 @@ Create a `runner.json` file:
 ### Complete Configuration Reference
 
 For a comprehensive example with **all available options** and inline documentation, see:
-- **`static/runner.json.template`** - Complete configuration template with all options explained
+- **`static/TrayMasterConfig.json.template`** - Complete configuration template with all options explained
 
 This template includes examples of:
 - Icon configuration (file-based and text-generated)
@@ -78,7 +78,7 @@ This template includes examples of:
 
 ### Documentation & Examples
 
-- **Configuration Template**: `static/runner.json.template` - All options with inline comments
+- **Configuration Template**: `static/TrayMasterConfig.json.template` - All options with inline comments
 - **HTTP Webhook Guide**: `examples/HTTP-REFERENCE.md` - Complete HTTP webhook documentation
 - **Example Handlers**: `examples/` - Node.js and Python webhook handler examples
 - **Sample Icon**: `static/icon.ico` - Ready-to-use tray icon
@@ -139,11 +139,11 @@ This template includes examples of:
 
 ## HTTP Server (Webhook Support)
 
-Runner includes an optional HTTP server that allows menu items to be triggered via HTTP requests - perfect for webhooks, automation, and serverless-style workflows.
+TrayMaster includes an optional HTTP server that allows menu items to be triggered via HTTP requests - perfect for webhooks, automation, and serverless-style workflows.
 
 ### Enable HTTP Server
 
-Add the `httpServer` section to your `runner.json`:
+Add the `httpServer` section to your `TrayMasterConfig.json`:
 
 ```json
 {
@@ -199,7 +199,7 @@ This item is **only** accessible via HTTP, not from the tray menu.
 
 ### How Arguments Are Passed
 
-When an HTTP request triggers a menu item, Runner passes a single JSON argument containing all request data (ExpressJS-like format):
+When an HTTP request triggers a menu item, TrayMaster passes a single JSON argument containing all request data (ExpressJS-like format):
 
 **Single Argument:** Complete request data as JSON string
 
@@ -485,19 +485,19 @@ curl -X POST http://127.0.0.1:8080/github -d '{"action":"push","ref":"refs/heads
 ### Security Considerations
 
 1. **Use `localOnly: true`** (default) to prevent external access
-2. **Authentication should be handled in endpoint handlers** (not in Runner itself)
-   - Runner passes all headers to your handlers, so you can implement auth there
-   - This keeps Runner lightweight and follows serverless patterns
+2. **Authentication should be handled in endpoint handlers** (not in TrayMaster itself)
+   - TrayMaster passes all headers to your handlers, so you can implement auth there
+   - This keeps TrayMaster lightweight and follows serverless patterns
    - See "Authentication Patterns" section below for examples
-3. **Alternative: Use a reverse proxy** (nginx, Caddy, etc.) for Runner-level auth if needed
+3. **Alternative: Use a reverse proxy** (nginx, Caddy, etc.) for TrayMaster-level auth if needed
 4. **Paths must be unique** - validation occurs at startup
-5. **Commands run with Runner's permissions** - be careful with sensitive operations
+5. **Commands run with TrayMaster's permissions** - be careful with sensitive operations
 
 ### Authentication Patterns
 
 **Why handle auth in handlers (recommended):**
 
-Runner follows a **serverless-style architecture** where it acts as a lightweight router/gateway. Just like AWS Lambda, Azure Functions, or Vercel Functions:
+TrayMaster follows a **serverless-style architecture** where it acts as a lightweight router/gateway. Just like AWS Lambda, Azure Functions, or Vercel Functions:
 - The gateway (Runner) forwards requests with full context
 - The handler (your script) implements business logic AND authentication
 - This keeps the gateway lightweight and flexible
@@ -514,7 +514,7 @@ const validKey = process.env.API_KEY || 'your-secret-key';
 
 if (apiKey !== validKey) {
     console.error('Unauthorized: Invalid API key');
-    process.exit(1); // Runner will return 500, or you can implement proper HTTP responses
+    process.exit(1); // TrayMaster will return 500, or you can implement proper HTTP responses
 }
 
 // Proceed with authenticated request
@@ -546,9 +546,9 @@ if (username !== 'admin' || password !== process.env.ADMIN_PASSWORD) {
 // Authenticated - proceed
 ```
 
-**Alternative: Reverse Proxy for Runner-Level Auth**
+**Alternative: Reverse Proxy for TrayMaster-Level Auth**
 
-If you need Runner-level authentication (before requests reach handlers), use a reverse proxy:
+If you need TrayMaster-level authentication (before requests reach handlers), use a reverse proxy:
 
 ```nginx
 # nginx.conf
@@ -561,7 +561,7 @@ server {
         auth_basic "Restricted";
         auth_basic_user_file /path/to/.htpasswd;
         
-        # Forward to Runner
+        # Forward to TrayMaster
         proxy_pass http://127.0.0.1:8080;
     }
 }
@@ -614,7 +614,7 @@ dotnet publish -c Release
 
 The `prepare-dist.ps1` script creates a complete distribution package:
 - Copies the release executable
-- Copies configuration template from `static/runner.json.template` → `dist/runner.json`
+- Copies configuration template from `static/TrayMasterConfig.json.template` → `dist/TrayMasterConfig.json`
 - Copies sample icon from `static/icon.ico`
 - Copies all example handlers from `examples/`
 - Copies documentation (README.md, HTTP-REFERENCE.md)
@@ -663,7 +663,7 @@ The `prepare-dist.ps1` script creates a complete distribution package:
 - `build.ps1` - Debug build script
 - `build-release.ps1` - Release build script
 - `prepare-dist.ps1` - Prepare distribution folder with all files
-- `Runner.csproj` - Project file
+- `TrayMaster.csproj` - Project file
 - `README.md` - Main documentation (this file)
 - `LICENSE` - MIT License
 - `CODE-SIGNING-POLICY.md` - Code signing policy for SignPath Foundation
@@ -680,7 +680,7 @@ The `prepare-dist.ps1` script creates a complete distribution package:
 
 **`static/` - Static Assets:**
 - `icon.ico` - Sample tray icon
-- `runner.json.template` - Configuration template with all available options
+- `TrayMasterConfig.json.template` - Configuration template with all available options
 
 **`examples/` - Example Handlers:**
 - `handler.js` - Node.js webhook handler example
@@ -693,8 +693,8 @@ The `prepare-dist.ps1` script creates a complete distribution package:
 - `HTTP-REFERENCE.md` - HTTP webhook reference guide
 
 **`dist/` - Distribution Folder (created by `prepare-dist.ps1`):**
-- `Runner.exe` - The application (69MB, self-contained)
-- `runner.json` - Configuration file (copied from template)
+- `TrayMaster.exe` - The application (69MB, self-contained)
+- `TrayMasterConfig.json` - Configuration file (copied from template)
 - `icon.ico` - Custom tray icon
 - All example handlers and documentation
 
@@ -707,11 +707,11 @@ The `prepare-dist.ps1` script creates a complete distribution package:
 - **Static assets** are in `static/` - templates and samples
 - **Examples** are in `examples/` - working code examples
 - **Build scripts** are in root - for easy access
-- **Development config** (`runner.json`) is in root - for testing
+- **Development config** (`TrayMasterConfig.json`) is in root - for testing
 
 **Making Changes:**
 1. Modify source code in `src/`
-2. Update `static/runner.json.template` if adding new config options
+2. Update `static/TrayMasterConfig.json.template` if adding new config options
 3. Add examples to `examples/` if adding new features
 4. Update documentation in `README.md`, `examples/HTTP-REFERENCE.md`, etc.
 5. Run `.\build.ps1` to test changes
@@ -719,7 +719,7 @@ The `prepare-dist.ps1` script creates a complete distribution package:
 
 **Configuration Template:**
 
-The `static/runner.json.template` is the **single source of truth** for all available configuration options. It includes:
+The `static/TrayMasterConfig.json.template` is the **single source of truth** for all available configuration options. It includes:
 - Inline comments explaining every option
 - Example values for all fields
 - Guidance on when to use each option
@@ -736,7 +736,7 @@ The following features are planned as top priorities:
 
 1. **Static Server**: Serve static files from a configurable directory using the built-in HTTP server.
 2. **HTTP Catch All**: Allow the HTTP server to handle any HTTP request, regardless of the request path, for maximum integration flexibility.
-3. **Configuration Hot-Reload**: Automatically detect changes to `runner.json` and reload configuration without requiring an application restart.
+3. **Configuration Hot-Reload**: Automatically detect changes to `TrayMasterConfig.json` and reload configuration without requiring an application restart.
 4. **Process Auto-Restart**: Ensure long-running processes are automatically restarted if they crash or exit unexpectedly, improving fault tolerance.
 5. **Log File Persistence**: Save process output to persistent log files, with support for log rotation and file size limits to manage disk usage.
 6. **Process Health Monitoring**: Display real-time CPU and memory usage of processes within the tray menu for easy monitoring.
@@ -777,7 +777,7 @@ copies of the Software.
 
 ## Code Signing
 
-Runner releases are code-signed using certificates provided by the **SignPath Foundation** for open source projects.
+TrayMaster releases are code-signed using certificates provided by the **SignPath Foundation** for open source projects.
 
 - **Certificate Authority**: SignPath Foundation
 - **Code Signing Policy**: [CODE-SIGNING-POLICY.md](CODE-SIGNING-POLICY.md)

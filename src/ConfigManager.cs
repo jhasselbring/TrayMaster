@@ -2,13 +2,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Runner.Models;
+using TrayMaster.Models;
 
-namespace Runner
+namespace TrayMaster
 {
     public class ConfigManager
     {
-        private const string ConfigFileName = "runner.json";
+        private const string ConfigFileName = "TrayMasterConfig.json";
 
         public static AppConfig Load()
         {
@@ -18,7 +18,7 @@ namespace Runner
             {
                 throw new FileNotFoundException(
                     $"Configuration file not found: {configPath}\n\n" +
-                    $"Please create a runner.json file in the same directory as Runner.exe"
+                    $"Please create a TrayMasterConfig.json file in the same directory as TrayMaster.exe"
                 );
             }
 

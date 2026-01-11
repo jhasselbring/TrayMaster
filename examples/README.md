@@ -1,6 +1,6 @@
 # HTTP Webhook Examples
 
-This folder contains example handlers and complete documentation for Runner's HTTP webhook functionality.
+This folder contains example handlers and complete documentation for TrayMaster's HTTP webhook functionality.
 
 ## Documentation Files
 
@@ -10,7 +10,7 @@ This folder contains example handlers and complete documentation for Runner's HT
   - Node.js and Python templates
   - Common patterns and best practices
 
-- **`../static/runner.json.template`** - Complete configuration template with all possible options
+- **`../static/TrayMasterConfig.json.template`** - Complete configuration template with all possible options
   - Inline comments explaining every field
   - Multiple real-world examples
   - All menu item options (longRunning, enabledWhen, showWhen, path, webOnly, etc.)
@@ -31,13 +31,13 @@ This folder contains example handlers and complete documentation for Runner's HT
 **1. Read the documentation:**
 ```
 examples/HTTP-REFERENCE.md       ← Complete HTTP webhook guide
-static/runner.json.template      ← All configuration options
+static/TrayMasterConfig.json.template      ← All configuration options
 ```
 
 **2. Set up your deployment directory:**
 ```bash
 # Copy the configuration template
-cp static/runner.json.template ./runner.json
+cp static/TrayMasterConfig.json.template ./TrayMasterConfig.json
 
 # Copy example handlers (optional)
 cp examples/*.js .
@@ -48,7 +48,7 @@ cp examples/run-python.cmd .
 cp static/icon.ico .
 ```
 
-**3. Configure your runner.json:**
+**3. Configure your TrayMasterConfig.json:**
 ```json
 {
     "httpServer": {

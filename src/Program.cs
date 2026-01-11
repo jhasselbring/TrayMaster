@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Runner
+namespace TrayMaster
 {
     internal static class Program
     {

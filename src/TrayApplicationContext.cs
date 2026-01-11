@@ -4,9 +4,9 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Runner.Models;
+using TrayMaster.Models;
 
-namespace Runner
+namespace TrayMaster
 {
     public class TrayApplicationContext : ApplicationContext
     {

@@ -1,5 +1,5 @@
 # Build Runner in debug mode
-Write-Host "Building Runner (Debug)..." -ForegroundColor Cyan
+Write-Host "Building TrayMaster (Debug)..." -ForegroundColor Cyan
 
 # Check if dotnet is available
 try {
@@ -17,22 +17,22 @@ dotnet build -c Debug
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`nBuild successful!" -ForegroundColor Green
 
-    # Copy runner.json to output
+    # Copy TrayMasterConfig.json to output
     $outputDir = "bin\Debug\net8.0-windows"
     if (Test-Path $outputDir) {
-        Copy-Item runner.json $outputDir -Force
+        Copy-Item TrayMasterConfig.json $outputDir -Force
         Write-Host "Config copied to $outputDir" -ForegroundColor Cyan
 
         # Show how to run
         Write-Host "`nTo run:" -ForegroundColor Yellow
         Write-Host "  cd $outputDir" -ForegroundColor White
-        Write-Host "  .\Runner.exe" -ForegroundColor White
+        Write-Host "  .\TrayMaster.exe" -ForegroundColor White
 
         # Ask if user wants to run now
         Write-Host "`nRun now? (Y/N): " -NoNewline -ForegroundColor Yellow
         $response = Read-Host
         if ($response -eq 'Y' -or $response -eq 'y') {
-            & "$outputDir\Runner.exe"
+            & "$outputDir\TrayMaster.exe"
         }
     }
 } else {

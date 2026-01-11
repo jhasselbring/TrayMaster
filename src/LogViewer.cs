@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Runner
+namespace TrayMaster
 {
     public class LogViewer : Form
     {

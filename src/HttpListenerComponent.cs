@@ -6,9 +6,9 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Runner.Models;
+using TrayMaster.Models;
 
-namespace Runner
+namespace TrayMaster
 {
     public class HttpListenerComponent : IDisposable
     {

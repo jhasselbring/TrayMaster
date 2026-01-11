@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace Runner
+namespace TrayMaster
 {
     public enum ProcessState
     {

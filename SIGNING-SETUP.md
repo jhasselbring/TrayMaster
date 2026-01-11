@@ -1,6 +1,6 @@
 # Code Signing Setup with SignPath.io
 
-This guide will help you set up free code signing for Runner using SignPath.io's open source program.
+This guide will help you set up free code signing for TrayMaster using SignPath.io's open source program.
 
 ## Compliance
 
@@ -44,12 +44,12 @@ Before applying to SignPath, ensure:
 2. Click **"Open Source"** or **"Get Started"**
 3. Select **"Open Source Projects"**
 4. Fill out the application form:
-   - **Project Name**: Runner
-   - **Repository URL**: https://github.com/jhasselbring/runner
+   - **Project Name**: TrayMaster
+   - **Repository URL**: https://github.com/jhasselbring/traymaster
    - **License**: MIT License
    - **Project Description**: System Tray Process Manager for Windows
    - **Why you need code signing**: To eliminate SmartScreen warnings for users
-   - **Code Signing Policy**: https://github.com/jhasselbring/runner/blob/master/CODE-SIGNING-POLICY.md
+   - **Code Signing Policy**: https://github.com/jhasselbring/traymaster/blob/master/CODE-SIGNING-POLICY.md
 
 5. Submit the application and wait for approval (usually 1-3 business days)
 
@@ -58,8 +58,8 @@ Before applying to SignPath, ensure:
 Once approved, you'll receive access to the SignPath dashboard:
 
 1. **Create a New Project**:
-   - Project Name: `runner`
-   - Project Slug: `runner` (use lowercase)
+   - Project Name: `traymaster`
+   - Project Slug: `traymaster` (use lowercase)
 
 2. **Upload Configuration**:
    - Upload the `SignPath.json` file from your repository
@@ -79,7 +79,7 @@ Once approved, you'll receive access to the SignPath dashboard:
 
 Add the following secrets to your GitHub repository:
 
-1. Go to your repository: https://github.com/jhasselbring/runner
+1. Go to your repository: https://github.com/jhasselbring/traymaster
 2. Click **Settings** → **Secrets and variables** → **Actions**
 3. Click **"New repository secret"** and add:
 
@@ -105,19 +105,19 @@ Once everything is configured:
    - Wait for signing to complete
    - Create a GitHub release with signed binaries
 
-3. Monitor the workflow at: https://github.com/jhasselbring/runner/actions
+3. Monitor the workflow at: https://github.com/jhasselbring/traymaster/actions
 
 ## Step 5: Verify the Signature
 
 After the release is created:
 
-1. Download `Runner-v1.0.1-win64.exe`
+1. Download `TrayMaster-v1.0.1-win64.exe`
 2. Right-click → **Properties** → **Digital Signatures** tab
 3. You should see a valid signature
 
 Alternatively, verify via PowerShell:
 ```powershell
-Get-AuthenticodeSignature .\Runner-v1.0.1-win64.exe
+Get-AuthenticodeSignature .\TrayMaster-v1.0.1-win64.exe
 ```
 
 Expected output:
@@ -173,7 +173,7 @@ If you want to sign locally without SignPath:
      /fd SHA256 `
      /a `
      /t http://timestamp.digicert.com `
-     Runner.exe
+     TrayMaster.exe
    ```
 
 **Note**: Self-signed certificates still show SmartScreen warnings until you build reputation.
@@ -195,4 +195,4 @@ Once code signing is working:
 
 ---
 
-Created for Runner - System Tray Process Manager
+Created for TrayMaster - System Tray Process Manager

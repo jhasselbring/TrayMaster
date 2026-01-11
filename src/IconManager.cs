@@ -4,9 +4,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.IO;
 using System.Reflection;
-using Runner.Models;
+using TrayMaster.Models;
 
-namespace Runner
+namespace TrayMaster
 {
     public class IconManager
     {

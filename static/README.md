@@ -8,9 +8,9 @@ This folder contains static assets for the Runner application.
 Sample system tray icon for Runner. This is a ready-to-use icon that you can:
 - Use as-is in your deployment
 - Replace with your own custom icon
-- Reference in `runner.json` configuration
+- Reference in `TrayMasterConfig.json` configuration
 
-### `runner.json.template`
+### `TrayMasterConfig.json.template`
 **Complete configuration template** with all available options documented inline.
 
 This is the **definitive reference** for Runner configuration, including:
@@ -37,11 +37,11 @@ This is the **definitive reference** for Runner configuration, including:
 Copy the template to your deployment directory and rename it:
 
 ```bash
-cp static/runner.json.template ./runner.json
+cp static/TrayMasterConfig.json.template ./TrayMasterConfig.json
 cp static/icon.ico ./icon.ico
 ```
 
-Then edit `runner.json` to configure your processes.
+Then edit `TrayMasterConfig.json` to configure your processes.
 
 ### For Development
 

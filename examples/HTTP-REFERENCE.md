@@ -1,7 +1,7 @@
 # HTTP Webhook Reference - Complete Guide
 
 > **See Also:**
-> - `../static/runner.json.template` - Complete configuration with all options
+> - `../static/TrayMasterConfig.json.template` - Complete configuration with all options
 > - `handler.js` / `handler.py` - Working examples in this folder
 > - `../README.md` - Main Runner documentation
 
@@ -50,7 +50,7 @@ Your script receives:
 
 ## Complete Example: Node.js Script
 
-### Configuration (runner.json)
+### Configuration (TrayMasterConfig.json)
 ```json
 {
     "httpServer": {
@@ -151,7 +151,7 @@ node deploy.js "{\"method\":\"POST\",\"path\":\"/api/deploy\",\"query\":{\"env\"
 
 ## Complete Example: Python Script
 
-### Configuration (runner.json)
+### Configuration (TrayMasterConfig.json)
 ```json
 {
     "menu": {
@@ -600,7 +600,7 @@ If `webOnly: true`, must have a `path` defined.
 
 ## Full Working Example
 
-**runner.json:**
+**TrayMasterConfig.json:**
 ```json
 {
     "name": "My API Server",

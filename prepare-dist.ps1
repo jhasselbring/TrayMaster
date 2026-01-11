@@ -8,19 +8,19 @@ if (-not (Test-Path $distPath)) {
 }
 
 # Copy executable
-$exePath = "bin\Release\net8.0-windows\win-x64\publish\Runner.exe"
+$exePath = "bin\Release\net8.0-windows\win-x64\publish\TrayMaster.exe"
 if (Test-Path $exePath) {
     Copy-Item $exePath $distPath -Force
-    Write-Host "✓ Copied Runner.exe" -ForegroundColor Green
+    Write-Host "✓ Copied TrayMaster.exe" -ForegroundColor Green
 } else {
-    Write-Host "✗ Runner.exe not found. Build first with: dotnet publish -c Release" -ForegroundColor Red
+    Write-Host "✗ TrayMaster.exe not found. Build first with: dotnet publish -c Release" -ForegroundColor Red
     exit 1
 }
 
 # Copy configuration files
-Copy-Item static\runner.json.template $distPath\runner.json -Force
+Copy-Item static\TrayMasterConfig.json.template $distPath\TrayMasterConfig.json -Force
 Copy-Item static\icon.ico $distPath -Force
-Write-Host "✓ Copied runner.json template and icon.ico" -ForegroundColor Green
+Write-Host "✓ Copied TrayMasterConfig.json template and icon.ico" -ForegroundColor Green
 
 # Copy documentation
 Copy-Item README.md $distPath -Force

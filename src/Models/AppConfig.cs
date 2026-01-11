@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Runner.Models
+namespace TrayMaster.Models
 {
     public class AppConfig
     {

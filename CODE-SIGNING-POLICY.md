@@ -1,17 +1,17 @@
 # Code Signing Policy
 
-**Project**: Runner - System Tray Process Manager
-**Repository**: https://github.com/jhasselbring/runner
+**Project**: TrayMaster - System Tray Process Manager
+**Repository**: https://github.com/jhasselbring/traymaster
 **License**: MIT License (OSI-approved)
 **Last Updated**: 2026-01-10
 
 ## Purpose
 
-This document outlines the code signing policy for the Runner project as required by the SignPath Foundation for open source code signing certificates.
+This document outlines the code signing policy for the TrayMaster project as required by the SignPath Foundation for open source code signing certificates.
 
 ## Project Overview
 
-Runner is a lightweight Windows system tray application for managing long-running processes with JSON configuration and HTTP webhook support. The project is:
+TrayMaster is a lightweight Windows system tray application for managing long-running processes with JSON configuration and HTTP webhook support. The project is:
 
 - **Open Source**: Licensed under the MIT License
 - **Non-Commercial**: Free to use, modify, and distribute
@@ -20,7 +20,7 @@ Runner is a lightweight Windows system tray application for managing long-runnin
 
 ## Code Signing Authority
 
-Runner uses code signing certificates provided by the **SignPath Foundation** for open source projects. All binaries are signed to:
+TrayMaster uses code signing certificates provided by the **SignPath Foundation** for open source projects. All binaries are signed to:
 
 - Verify publisher authenticity
 - Ensure binary integrity (no tampering)
@@ -79,7 +79,7 @@ All signed binaries must:
 
 ### What We Sign
 
-- `Runner.exe` - Main application executable (Windows x64)
+- `TrayMaster.exe` - Main application executable (Windows x64)
 
 ### What We Don't Sign
 
@@ -99,22 +99,22 @@ All signed binaries must:
 
 ### User Privacy
 
-Runner does NOT:
+TrayMaster does NOT:
 - Collect user data
 - Phone home or send telemetry
 - Include tracking or analytics
 - Access user files without explicit configuration
 - Make network requests except for user-configured HTTP webhooks
 
-Runner DOES:
+TrayMaster DOES:
 - Run entirely locally on the user's machine
 - Only execute commands configured by the user
-- Store configuration locally in `runner.json`
+- Store configuration locally in `TrayMasterConfig.json`
 - Respect user privacy and data sovereignty
 
 ### Prohibited Uses
 
-Runner is NOT designed for:
+TrayMaster is NOT designed for:
 - Hacking or unauthorized system access
 - Exploiting security vulnerabilities
 - Circumventing security measures
@@ -131,7 +131,7 @@ If security issues or policy violations are reported:
 4. **Release Update**: Issue patched version immediately
 5. **User Notification**: Announce the issue and fix in release notes
 
-Report security issues to: https://github.com/jhasselbring/runner/issues
+Report security issues to: https://github.com/jhasselbring/traymaster/issues
 
 ## Multi-Factor Authentication (MFA)
 
@@ -180,9 +180,9 @@ https://signpath.io
 ## Contact
 
 For questions about this code signing policy:
-- Open an issue: https://github.com/jhasselbring/runner/issues
+- Open an issue: https://github.com/jhasselbring/traymaster/issues
 - Project maintainer: @jhasselbring
 
 ---
 
-**Disclaimer**: SignPath Foundation cannot accept any liability for damages resulting from software signed with their certificates. Users install and use Runner at their own risk. See LICENSE for full terms.
+**Disclaimer**: SignPath Foundation cannot accept any liability for damages resulting from software signed with their certificates. Users install and use TrayMaster at their own risk. See LICENSE for full terms.

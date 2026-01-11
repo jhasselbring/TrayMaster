@@ -1,12 +1,12 @@
 {
   "$schema": "https://signpath.io/schemas/signpath-config-1.0.json",
-  "name": "Runner",
-  "description": "Code signing configuration for Runner - System Tray Process Manager",
+  "name": "TrayMaster",
+  "description": "Code signing configuration for TrayMaster - System Tray Process Manager",
   "artifacts": [
     {
       "type": "pe-file",
-      "path": "Runner.exe",
-      "description": "Runner executable"
+      "path": "TrayMaster.exe",
+      "description": "TrayMaster executable"
     }
   ]
 }

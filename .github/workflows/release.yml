@@ -24,7 +24,7 @@ jobs:
       - name: Prepare artifacts
         run: |
           mkdir -p artifacts
-          cp bin/Release/net8.0-windows/win-x64/publish/Runner.exe artifacts/
+          cp bin/Release/net8.0-windows/win-x64/publish/TrayMaster.exe artifacts/
 
       # Sign with SignPath (requires manual approval)
       - name: Submit to SignPath for signing
@@ -32,11 +32,11 @@ jobs:
         with:
           api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
           organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
-          project-slug: 'runner'
+          project-slug: 'traymaster'
           signing-policy-slug: 'release-signing'
-          artifact-configuration-slug: 'runner'
-          input-artifact-path: artifacts/Runner.exe
-          output-artifact-path: artifacts/Runner-signed.exe
+          artifact-configuration-slug: 'traymaster'
+          input-artifact-path: artifacts/TrayMaster.exe
+          output-artifact-path: artifacts/TrayMaster-signed.exe
           wait-for-completion: true
           # Note: Manual approval required in SignPath dashboard
           # Approver must review and approve before signing completes
@@ -47,10 +47,10 @@ jobs:
           mkdir dist
 
           # Copy signed executable
-          cp artifacts/Runner-signed.exe dist/Runner.exe
+          cp artifacts/TrayMaster-signed.exe dist/TrayMaster.exe
 
           # Copy config and assets
-          cp static/runner.json.template dist/runner.json
+          cp static/TrayMasterConfig.json.template dist/TrayMasterConfig.json
           cp static/icon.ico dist/
           cp README.md dist/
           cp examples/HTTP-REFERENCE.md dist/
@@ -62,25 +62,25 @@ jobs:
       - name: Create ZIP
         run: |
           cd dist
-          Compress-Archive -Path * -DestinationPath ../Runner-${{ github.ref_name }}-win64.zip
+          Compress-Archive -Path * -DestinationPath ../TrayMaster-${{ github.ref_name }}-win64.zip
           cd ..
-          cp dist/Runner.exe Runner-${{ github.ref_name }}-win64.exe
+          cp dist/TrayMaster.exe TrayMaster-${{ github.ref_name }}-win64.exe
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            Runner-${{ github.ref_name }}-win64.zip
-            Runner-${{ github.ref_name }}-win64.exe
+            TrayMaster-${{ github.ref_name }}-win64.zip
+            TrayMaster-${{ github.ref_name }}-win64.exe
           body: |
-            # Runner - System Tray Process Manager
+            # TrayMaster - System Tray Process Manager
 
             A lightweight Windows system tray application for managing long-running processes with JSON configuration and HTTP webhook support.
 
             ## What's Included
 
             This release includes:
-            - **Runner.exe** - Code-signed standalone executable (self-contained, no dependencies)
+            - **TrayMaster.exe** - Code-signed standalone executable (self-contained, no dependencies)
             - **Complete distribution** - Includes config templates, examples, and documentation
 
             ## Features
@@ -96,10 +96,10 @@ jobs:
 
             ## Quick Start
 
-            1. Download `Runner-${{ github.ref_name }}-win64.zip` or just `Runner-${{ github.ref_name }}-win64.exe`
+            1. Download `TrayMaster-${{ github.ref_name }}-win64.zip` or just `TrayMaster-${{ github.ref_name }}-win64.exe`
             2. Extract the ZIP (if using complete distribution)
-            3. Edit `runner.json` to configure your processes
-            4. Run `Runner.exe`
+            3. Edit `TrayMasterConfig.json` to configure your processes
+            4. Run `TrayMaster.exe`
 
             ## Requirements
 
