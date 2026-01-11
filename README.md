@@ -727,10 +727,14 @@ When adding new configuration options, update this template first, then update t
 
 ### Prioritized Features (In Order)
 
-1. **Configuration Hot-Reload** - Automatically reload `runner.json` when file changes are detected, allowing configuration updates without restarting Runner
-3. **Process Auto-Restart** - Automatically restart long-running processes when they crash or exit unexpectedly
-4. **Log File Persistence** - Option to save process output to log files with rotation and size limits
-5. **Process Health Monitoring** - Monitor process health (CPU, memory usage) and provide status indicators in tray menu
+The following features are planned as top priorities:
+
+1. **Static Server**: Serve static files from a configurable directory using the built-in HTTP server.
+2. **HTTP Catch All**: Allow the HTTP server to handle any HTTP request, regardless of the request path, for maximum integration flexibility.
+3. **Configuration Hot-Reload**: Automatically detect changes to `runner.json` and reload configuration without requiring an application restart.
+4. **Process Auto-Restart**: Ensure long-running processes are automatically restarted if they crash or exit unexpectedly, improving fault tolerance.
+5. **Log File Persistence**: Save process output to persistent log files, with support for log rotation and file size limits to manage disk usage.
+6. **Process Health Monitoring**: Display real-time CPU and memory usage of processes within the tray menu for easy monitoring.
 
 ### Backlog (Unordered)
 
