@@ -482,9 +482,93 @@ curl -X POST http://127.0.0.1:8080/github -d '{"action":"push","ref":"refs/heads
 ### Security Considerations
 
 1. **Use `localOnly: true`** (default) to prevent external access
-2. **No built-in authentication** - use firewall rules or reverse proxy if needed
-3. **Paths must be unique** - validation occurs at startup
-4. **Commands run with Runner's permissions** - be careful with sensitive operations
+2. **Authentication should be handled in endpoint handlers** (not in Runner itself)
+   - Runner passes all headers to your handlers, so you can implement auth there
+   - This keeps Runner lightweight and follows serverless patterns
+   - See "Authentication Patterns" section below for examples
+3. **Alternative: Use a reverse proxy** (nginx, Caddy, etc.) for Runner-level auth if needed
+4. **Paths must be unique** - validation occurs at startup
+5. **Commands run with Runner's permissions** - be careful with sensitive operations
+
+### Authentication Patterns
+
+**Why handle auth in handlers (recommended):**
+
+Runner follows a **serverless-style architecture** where it acts as a lightweight router/gateway. Just like AWS Lambda, Azure Functions, or Vercel Functions:
+- The gateway (Runner) forwards requests with full context
+- The handler (your script) implements business logic AND authentication
+- This keeps the gateway lightweight and flexible
+
+**Example: API Key Authentication in Handler**
+
+```javascript
+// handler.js
+const req = JSON.parse(process.argv[2]);
+
+// Check API key from headers
+const apiKey = req.headers['X-API-Key'] || req.headers['x-api-key'];
+const validKey = process.env.API_KEY || 'your-secret-key';
+
+if (apiKey !== validKey) {
+    console.error('Unauthorized: Invalid API key');
+    process.exit(1); // Runner will return 500, or you can implement proper HTTP responses
+}
+
+// Proceed with authenticated request
+console.log('Authenticated request received');
+// ... your logic here
+```
+
+**Example: Basic Auth in Handler**
+
+```javascript
+// handler.js
+const req = JSON.parse(process.argv[2]);
+
+// Extract Basic Auth header
+const authHeader = req.headers['Authorization'] || req.headers['authorization'];
+if (!authHeader || !authHeader.startsWith('Basic ')) {
+    console.error('Unauthorized: Missing Basic auth');
+    process.exit(1);
+}
+
+const credentials = Buffer.from(authHeader.substring(6), 'base64').toString();
+const [username, password] = credentials.split(':');
+
+if (username !== 'admin' || password !== process.env.ADMIN_PASSWORD) {
+    console.error('Unauthorized: Invalid credentials');
+    process.exit(1);
+}
+
+// Authenticated - proceed
+```
+
+**Alternative: Reverse Proxy for Runner-Level Auth**
+
+If you need Runner-level authentication (before requests reach handlers), use a reverse proxy:
+
+```nginx
+# nginx.conf
+server {
+    listen 80;
+    server_name localhost;
+    
+    location / {
+        # Basic auth at proxy level
+        auth_basic "Restricted";
+        auth_basic_user_file /path/to/.htpasswd;
+        
+        # Forward to Runner
+        proxy_pass http://127.0.0.1:8080;
+    }
+}
+```
+
+This approach:
+- ✅ Keeps Runner lightweight
+- ✅ Allows different auth per endpoint (via handler logic)
+- ✅ Follows serverless patterns
+- ✅ Easy to test and debug
 
 ### Tips
 
@@ -636,3 +720,32 @@ The `static/runner.json.template` is the **single source of truth** for all avai
 - Guidance on when to use each option
 
 When adding new configuration options, update this template first, then update the documentation.
+
+---
+
+## Roadmap
+
+### Prioritized Features (In Order)
+
+1. **Configuration Hot-Reload** - Automatically reload `runner.json` when file changes are detected, allowing configuration updates without restarting Runner
+3. **Process Auto-Restart** - Automatically restart long-running processes when they crash or exit unexpectedly
+4. **Log File Persistence** - Option to save process output to log files with rotation and size limits
+5. **Process Health Monitoring** - Monitor process health (CPU, memory usage) and provide status indicators in tray menu
+
+### Backlog (Unordered)
+
+- **HTTPS Support** - Add TLS/SSL support for HTTP server
+- **Process Groups** - Group related processes together for batch start/stop operations
+- **Environment Variables** - Support environment variable expansion in configuration
+- **Notification System** - Show Windows notifications for process events (start, stop, crash)
+- **Process Scheduling** - Schedule processes to start/stop at specific times
+- **Remote Configuration** - Allow configuration updates via HTTP API
+- **Process Limits** - Set resource limits (CPU, memory) for processes
+- **Better Error Recovery** - Improved error handling and recovery mechanisms
+- **Configuration Validation UI** - Visual feedback for configuration errors
+- **Process Templates** - Reusable process templates for common patterns
+- **Statistics Dashboard** - Track process uptime, restart counts, and usage statistics
+- **Plugin System** - Extend functionality through plugins or scripts
+- **Cross-Platform Support** - Port to Linux and macOS (requires significant refactoring)
+- **Web UI** - Optional web-based interface for managing processes
+- **Process Logging Levels** - Filter and control log verbosity per process
