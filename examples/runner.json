@@ -1,0 +1,141 @@
+{
+    // ============================================
+    // COMPLETE RUNNER.JSON EXAMPLE
+    // All possible configuration options with explanations
+    // ============================================
+
+    // REQUIRED: Application name (shown in logs and errors)
+    "name": "My Application",
+
+    // REQUIRED: Text shown in system tray tooltip
+    "trayTitle": "My App - Running",
+
+    // OPTIONAL: System tray icon configuration
+    "icon": {
+        // Option 1: Use an icon file (RECOMMENDED)
+        "path": "icon.ico",  // Supports: .ico, .png, .jpg, .bmp
+
+        // Option 2: Generate from text (if path not specified)
+        "text": "MA",                    // 1-2 letters
+        "color": [41, 128, 185],         // RGB background color
+        "textColor": [255, 255, 255]     // RGB text color
+    },
+
+    // OPTIONAL: HTTP Server configuration
+    // If not specified or enabled=false, no HTTP server starts
+    "httpServer": {
+        "enabled": true,        // Enable HTTP server (default: false)
+        "port": 8080,           // Port to listen on (default: 8080, range: 1-65535)
+        "localOnly": true       // true = 127.0.0.1 only, false = all interfaces (default: true)
+    },
+
+    // OPTIONAL: Logging configuration (not fully implemented yet)
+    "logging": {
+        "enabled": true,
+        "level": "info",
+        "maxLines": 10000
+    },
+
+    // REQUIRED: Menu configuration
+    "menu": {
+        "items": [
+            // ========================================
+            // EXAMPLE 1: HTTP-TRIGGERED NODE.JS SCRIPT
+            // How to call: curl -X POST http://127.0.0.1:8080/api/deploy -d '{"version":"1.0.0"}'
+            // ========================================
+            {
+                "label": "Deploy Handler",           // REQUIRED: Display name
+                "command": "node scripts/deploy.js", // REQUIRED: Command to execute
+                "path": "/api/deploy",               // OPTIONAL: HTTP endpoint path
+                "webOnly": true,                     // OPTIONAL: Hide from tray menu (default: false)
+                "workingDir": "C:/MyApp"             // OPTIONAL: Working directory for command
+            },
+
+            // ========================================
+            // EXAMPLE 2: VISIBLE IN BOTH TRAY AND HTTP
+            // Appears in tray menu AND accessible via HTTP
+            // ========================================
+            {
+                "label": "Restart Service",
+                "command": "node scripts/restart.js",
+                "path": "/restart",
+                // webOnly is false by default, so this appears in tray menu
+                "workingDir": "C:/MyApp"
+            },
+
+            // ========================================
+            // EXAMPLE 3: LONG-RUNNING PROCESS
+            // Shows start/stop controls in tray menu
+            // ========================================
+            {
+                "label": "Development Server",
+                "command": "npm run dev",
+                "workingDir": "C:/MyApp",
+                "longRunning": true,    // OPTIONAL: Track process state (default: false)
+                "default": true,        // OPTIONAL: Execute on left-click of tray icon (default: false)
+                "path": "/start-dev"    // OPTIONAL: Can also trigger via HTTP
+            },
+
+            // ========================================
+            // EXAMPLE 4: CONDITIONAL VISIBILITY
+            // Only shown/enabled when process is running/stopped
+            // ========================================
+            {
+                "label": "Open Browser",
+                "command": "start http://localhost:3000",
+                "enabledWhen": "running",  // OPTIONAL: "always", "running", "stopped" (default: "always")
+                "showWhen": "running"      // OPTIONAL: "always", "running", "stopped" (default: "always")
+            },
+
+            // ========================================
+            // EXAMPLE 5: PYTHON SCRIPT WITH VISIBLE TERMINAL
+            // Terminal stays open to see output
+            // ========================================
+            {
+                "label": "Python Webhook",
+                "command": "start cmd.exe /k python handler.py",
+                "path": "/webhook",
+                "webOnly": true
+            },
+
+            // ========================================
+            // EXAMPLE 6: SILENT BACKGROUND EXECUTION
+            // No terminal window, runs silently
+            // ========================================
+            {
+                "label": "Silent Background Task",
+                "command": "node background-job.js",
+                "path": "/background",
+                "webOnly": true
+            },
+
+            // ========================================
+            // EXAMPLE 7: VIEW HTTP REQUEST DATA
+            // Shows complete request data in terminal (method, query, headers, body, etc.)
+            // ========================================
+            {
+                "label": "View Request Data",
+                "command": "start cmd.exe /k node view-request.js",
+                "path": "/view-request",
+                "webOnly": true
+            },
+
+            // ========================================
+            // EXAMPLE 8: SEPARATOR
+            // Visual separator in tray menu
+            // ========================================
+            {
+                "label": "separator"
+            },
+
+            // ========================================
+            // EXAMPLE 9: BUILT-IN ACTION (QUIT)
+            // Uses "action" instead of "command"
+            // ========================================
+            {
+                "label": "Quit",
+                "action": "quit"  // Currently only "quit" is supported
+            }
+        ]
+    }
+}

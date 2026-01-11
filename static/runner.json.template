@@ -1,0 +1,140 @@
+{
+    // ============================================================================
+    // RUNNER.JSON - Complete Configuration Example
+    // All available options with descriptions and examples
+    // ============================================================================
+
+    // Application name (shown in logs and errors)
+    "name": "ComfyUI",
+
+    // Tray icon tooltip text
+    "trayTitle": "ComfyUI - Click to start",
+
+    // ============================================================================
+    // ICON CONFIGURATION
+    // ============================================================================
+    "icon": {
+        // Option 1: Use an icon file (.ico recommended, .png supported)
+        "path": "icon.ico",
+
+        // Option 2: Generate from text (all fields required for text-based icon)
+        "color": [73, 109, 137],       // RGB background color [R, G, B]
+        "text": "C",                    // Single character to display
+        "textColor": [255, 255, 255]   // RGB text color [R, G, B]
+    },
+
+    // ============================================================================
+    // HTTP SERVER CONFIGURATION (optional)
+    // Enable webhook support and HTTP-triggered menu items
+    // ============================================================================
+    "httpServer": {
+        "enabled": false,              // Enable/disable HTTP server (default: false)
+        "port": 8080,                  // Port to listen on (1-65535, default: 8080)
+        "localOnly": true              // Bind to localhost only (default: true)
+                                       // true = 127.0.0.1 only, false = all interfaces
+    },
+
+    // ============================================================================
+    // LOGGING CONFIGURATION (optional)
+    // Control process output logging behavior
+    // ============================================================================
+    "logging": {
+        "enabled": true,               // Enable/disable logging (default: true)
+        "level": "info",               // Log level: "debug", "info", "warn", "error"
+        "maxLines": 10000              // Maximum lines to keep in memory (default: 10000)
+    },
+
+    // ============================================================================
+    // MENU CONFIGURATION
+    // ============================================================================
+    "menu": {
+        "items": [
+            // ================================================================
+            // LONG-RUNNING PROCESS with all options
+            // Shows "Start X" when stopped, becomes submenu with View/Exit when running
+            // ================================================================
+            {
+                "label": "ComfyUI",                           // Menu item text (required)
+                "command": "node start_comfyui.js",           // Command to execute
+                "workingDir": "D:/Applications/ComfyUI",      // Working directory for command
+                "longRunning": true,                          // Track process, show View/Exit submenu
+                "default": true,                              // Execute on tray icon left-click
+                "enabledWhen": "always",                      // When item is enabled: "always", "running", "stopped"
+                "showWhen": "always"                          // When item is shown: "always", "running", "stopped"
+            },
+
+            // ================================================================
+            // SEPARATOR
+            // Visual separator in menu
+            // ================================================================
+            {
+                "label": "separator"
+            },
+
+            // ================================================================
+            // SIMPLE COMMAND
+            // Executes once and completes (not tracked)
+            // ================================================================
+            {
+                "label": "ComfyUI Dir",
+                "command": "explorer D:/Applications/ComfyUI"
+            },
+
+            // ================================================================
+            // CONDITIONAL MENU ITEM
+            // Only enabled when long-running process is in specific state
+            // ================================================================
+            {
+                "label": "Open Browser",
+                "command": "start http://localhost:8188",
+                "enabledWhen": "running"                      // Only enabled when long-running process is running
+            },
+
+            // ================================================================
+            // HTTP WEBHOOK ENDPOINT (requires httpServer.enabled = true)
+            // Accessible from tray menu AND via HTTP
+            // ================================================================
+            {
+                "label": "Process Webhook",
+                "command": "node handler.js",                 // Receives JSON payload as argument
+                "path": "/webhook",                           // HTTP endpoint: http://localhost:8080/webhook
+                "workingDir": "D:/Applications/ComfyUI"
+            },
+
+            // ================================================================
+            // WEB-ONLY ENDPOINT (requires httpServer.enabled = true)
+            // Hidden from tray menu, only accessible via HTTP
+            // ================================================================
+            {
+                "label": "Deploy Handler",
+                "command": "node deploy.js",
+                "path": "/deploy",                            // HTTP endpoint: http://localhost:8080/deploy
+                "webOnly": true,                              // Hide from tray menu
+                "workingDir": "D:/Applications/ComfyUI"
+            },
+
+            // ================================================================
+            // CONDITIONAL VISIBILITY
+            // Only shown when long-running process is stopped
+            // ================================================================
+            {
+                "label": "Start Instructions",
+                "command": "notepad instructions.txt",
+                "showWhen": "stopped"                         // Only shown when long-running process is stopped
+            },
+
+            {
+                "label": "separator"
+            },
+
+            // ================================================================
+            // QUIT ACTION
+            // Special action to quit the application
+            // ================================================================
+            {
+                "label": "Quit",
+                "action": "quit"                              // Special action: "quit"
+            }
+        ]
+    }
+}

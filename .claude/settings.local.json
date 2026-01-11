@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe -Command \"& ''C:\\\\Program Files\\\\dotnet\\\\dotnet.exe'' publish -c Release\")",
+      "Bash(taskkill:*)",
+      "Bash(where:*)",
+      "Bash(cmd.exe /c \"run-python.cmd --version\")",
+      "Bash(powershell.exe -Command \"& ./run-python.cmd --version\")",
+      "Bash(powershell.exe -Command \"pyenv versions\")",
+      "Bash(cmd.exe /c:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd HTTP webhook server with comprehensive documentation\n\nImplements optional HTTP server for triggering menu items via webhooks.\nSupports GET/POST requests with serverless-style argument passing.\n\nFeatures:\n- Optional HTTP server \\(disabled by default\\)\n- Path-based routing with unique endpoint validation\n- Web-only items \\(HTTP-accessible, hidden from tray menu\\)\n- Thread-safe request handling with UI thread marshaling\n- Command-line argument passing \\(Arg1=path, Arg2=JSON payload\\)\n- LocalOnly mode for security \\(default: 127.0.0.1 only\\)\n\nNew Files:\n- HttpListenerComponent.cs: Standalone HTTP server component\n- examples/: Complete documentation and example scripts\n  - HTTP-REFERENCE.md: Comprehensive technical guide\n  - runner.example.json: Complete config reference\n  - handler.js, handler.py: Node.js and Python templates\n  - send-post.js, send-post.py: Endpoint chaining examples\n  - run-python.cmd: pyenv-win compatibility wrapper\n- prepare-dist.ps1: Distribution folder preparation script\n\nModified Files:\n- Models/AppConfig.cs: Added HttpServerConfig, HttpPayload models\n- ConfigManager.cs: Added HTTP path and port validation\n- TrayApplicationContext.cs: HTTP integration with async callback bridge\n- README.md: Added HTTP server documentation section\n- runner.json: Example configuration with HTTP enabled\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git config:*)"
+    ]
+  }
+}

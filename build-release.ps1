@@ -1,0 +1,70 @@
+# Build Runner as single-file executable
+Write-Host "Building Runner (Release - Single File)..." -ForegroundColor Cyan
+
+# Kill any running Runner.exe processes
+Write-Host "`nChecking for running Runner.exe processes..." -ForegroundColor Yellow
+$runningProcesses = Get-Process -Name "Runner" -ErrorAction SilentlyContinue
+if ($runningProcesses) {
+    Write-Host "Stopping $($runningProcesses.Count) running Runner.exe process(es)..." -ForegroundColor Yellow
+    Stop-Process -Name "Runner" -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Milliseconds 500
+    Write-Host "Processes stopped." -ForegroundColor Green
+} else {
+    Write-Host "No running Runner.exe processes found." -ForegroundColor Gray
+}
+
+# Check if dotnet is available
+try {
+    $version = dotnet --version
+    Write-Host ".NET SDK Version: $version" -ForegroundColor Green
+} catch {
+    Write-Host "Error: .NET SDK not found!" -ForegroundColor Red
+    Write-Host "Run: .\install-dotnet.ps1" -ForegroundColor Yellow
+    exit 1
+}
+
+# Clean previous builds
+Write-Host "`nCleaning previous builds..." -ForegroundColor Yellow
+Remove-Item -Path "bin\Release" -Recurse -Force -ErrorAction SilentlyContinue
+
+# Build single-file executable
+Write-Host "`nBuilding single-file executable..." -ForegroundColor Yellow
+Write-Host "(This may take 1-2 minutes on first build)" -ForegroundColor Gray
+
+dotnet publish -c Release
+
+if ($LASTEXITCODE -eq 0) {
+    $outputPath = "bin\Release\net8.0-windows\win-x64\publish"
+
+    Write-Host "`nBuild successful!" -ForegroundColor Green
+    Write-Host "═══════════════════════════════════════" -ForegroundColor Cyan
+
+    # Show file info
+    $exePath = "$outputPath\Runner.exe"
+    if (Test-Path $exePath) {
+        $size = (Get-Item $exePath).Length / 1MB
+        Write-Host "Executable: $exePath" -ForegroundColor Cyan
+        Write-Host ("Size: {0:N2} MB" -f $size) -ForegroundColor Yellow
+
+        # Copy config
+        Copy-Item runner.json $outputPath -Force
+        Write-Host "Config: $outputPath\runner.json" -ForegroundColor Cyan
+
+        # Update dist folder if it exists
+        if (Test-Path "dist") {
+            Copy-Item $exePath "dist\Runner.exe" -Force
+            Write-Host "Updated: dist\Runner.exe" -ForegroundColor Green
+        }
+    }
+
+    Write-Host "═══════════════════════════════════════" -ForegroundColor Cyan
+
+    # Ask if user wants to run
+    Write-Host "`nRun now? (Y/N): " -NoNewline -ForegroundColor Yellow
+    $response = Read-Host
+    if ($response -eq 'Y' -or $response -eq 'y') {
+        & $exePath
+    }
+} else {
+    Write-Host "`nBuild failed!" -ForegroundColor Red
+}
