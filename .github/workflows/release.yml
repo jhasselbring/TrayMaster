@@ -26,8 +26,8 @@ jobs:
           mkdir -p artifacts
           cp bin/Release/net8.0-windows/win-x64/publish/Runner.exe artifacts/
 
-      # Sign with SignPath
-      - name: Sign with SignPath
+      # Sign with SignPath (requires manual approval)
+      - name: Submit to SignPath for signing
         uses: signpath/github-action-submit-signing-request@v1
         with:
           api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
@@ -38,6 +38,8 @@ jobs:
           input-artifact-path: artifacts/Runner.exe
           output-artifact-path: artifacts/Runner-signed.exe
           wait-for-completion: true
+          # Note: Manual approval required in SignPath dashboard
+          # Approver must review and approve before signing completes
 
       - name: Prepare distribution
         run: |

@@ -2,12 +2,41 @@
 
 This guide will help you set up free code signing for Runner using SignPath.io's open source program.
 
+## Compliance
+
+**IMPORTANT**: This project complies with SignPath Foundation's terms of service:
+- ✅ **MIT License** (OSI-approved open source license)
+- ✅ **No proprietary code** - All code is open source
+- ✅ **Code Signing Policy** - See [CODE-SIGNING-POLICY.md](CODE-SIGNING-POLICY.md)
+- ✅ **Multi-factor authentication** - Required for all team members
+- ✅ **Manual approval** - All signing requests require manual approval
+- ✅ **Version metadata** - Enforced in binaries
+- ✅ **No malware** - Legitimate process management tool
+- ✅ **Privacy-respecting** - No data collection or telemetry
+
+For full compliance details, see [CODE-SIGNING-POLICY.md](CODE-SIGNING-POLICY.md).
+
 ## Why Code Signing?
 
 Code signing eliminates Windows SmartScreen warnings and builds user trust by:
 - ✅ Showing your verified publisher name
 - ✅ Proving the executable hasn't been tampered with
 - ✅ No "Unknown publisher" warnings
+
+## Step 0: Prerequisites
+
+Before applying to SignPath, ensure:
+
+1. **Enable MFA on GitHub**:
+   - Go to https://github.com/settings/security
+   - Enable two-factor authentication (2FA/MFA)
+   - This is REQUIRED for all team members with code access
+
+2. **Verify Compliance**:
+   - ✅ LICENSE file exists (MIT License)
+   - ✅ CODE-SIGNING-POLICY.md is published
+   - ✅ Project is actively maintained
+   - ✅ README documents functionality
 
 ## Step 1: Apply for SignPath.io Open Source Program
 
@@ -17,9 +46,10 @@ Code signing eliminates Windows SmartScreen warnings and builds user trust by:
 4. Fill out the application form:
    - **Project Name**: Runner
    - **Repository URL**: https://github.com/jhasselbring/runner
-   - **License**: MIT (or your license)
+   - **License**: MIT License
    - **Project Description**: System Tray Process Manager for Windows
    - **Why you need code signing**: To eliminate SmartScreen warnings for users
+   - **Code Signing Policy**: https://github.com/jhasselbring/runner/blob/master/CODE-SIGNING-POLICY.md
 
 5. Submit the application and wait for approval (usually 1-3 business days)
 

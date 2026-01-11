@@ -2,6 +2,9 @@
 
 A lightweight Windows system tray application for managing long-running processes with JSON configuration and HTTP webhook support.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Signing](https://img.shields.io/badge/Code%20Signing-SignPath%20Foundation-blue)](https://signpath.io)
+
 ## Features
 
 - 🎯 **System Tray Integration** - Manage processes from your Windows system tray
@@ -662,6 +665,8 @@ The `prepare-dist.ps1` script creates a complete distribution package:
 - `prepare-dist.ps1` - Prepare distribution folder with all files
 - `Runner.csproj` - Project file
 - `README.md` - Main documentation (this file)
+- `LICENSE` - MIT License
+- `CODE-SIGNING-POLICY.md` - Code signing policy for SignPath Foundation
 
 **`src/` - Source Code:**
 - `Program.cs` - Entry point
@@ -753,3 +758,61 @@ The following features are planned as top priorities:
 - **Cross-Platform Support** - Port to Linux and macOS (requires significant refactoring)
 - **Web UI** - Optional web-based interface for managing processes
 - **Process Logging Levels** - Filter and control log verbosity per process
+
+---
+
+## License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License - Copyright (c) 2026 jhasselbring
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software.
+```
+
+## Code Signing
+
+Runner releases are code-signed using certificates provided by the **SignPath Foundation** for open source projects.
+
+- **Certificate Authority**: SignPath Foundation
+- **Code Signing Policy**: [CODE-SIGNING-POLICY.md](CODE-SIGNING-POLICY.md)
+- **Setup Guide**: [SIGNING-SETUP.md](SIGNING-SETUP.md)
+
+Code signing ensures:
+- Verified publisher authenticity
+- Binary integrity (no tampering)
+- No Windows SmartScreen warnings
+- User trust and security
+
+Learn more: https://signpath.io
+
+## Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+All contributors must:
+- Enable multi-factor authentication (MFA) on GitHub
+- Follow the code signing policy
+- Respect the MIT License terms
+
+## Security
+
+To report security vulnerabilities:
+1. Open an issue: https://github.com/jhasselbring/runner/issues
+2. Include detailed reproduction steps
+3. Allow time for investigation and patching
+
+See [CODE-SIGNING-POLICY.md](CODE-SIGNING-POLICY.md) for our security commitments.
+
+---
+
+**Built with .NET 8** | **Open Source** | **MIT Licensed** | **Code Signed**
